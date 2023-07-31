@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -31,6 +31,7 @@ class _LoginWidgetState extends State<LoginWidget>
     _model = createModel(context, () => LoginModel());
 
     _model.phoneNumberController ??= TextEditingController();
+    authManager.handlePhoneAuthStateChanges(context);
   }
 
   @override
@@ -144,13 +145,13 @@ class _LoginWidgetState extends State<LoginWidget>
                   );
                   return;
                 }
-                await beginPhoneAuth(
+                await authManager.beginPhoneAuth(
                   context: context,
                   phoneNumber: phoneNumberVal,
-                  onCodeSent: () async {
+                  onCodeSent: (context) async {
                     context.goNamedAuth(
                       'otppp',
-                      mounted,
+                      context.mounted,
                       ignoreRedirect: true,
                     );
                   },
