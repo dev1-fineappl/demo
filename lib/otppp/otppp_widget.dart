@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -21,7 +21,6 @@ class _OtpppWidgetState extends State<OtpppWidget> {
   late OtpppModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
-  final _unfocusNode = FocusNode();
 
   @override
   void initState() {
@@ -33,34 +32,33 @@ class _OtpppWidgetState extends State<OtpppWidget> {
   void dispose() {
     _model.dispose();
 
-    _unfocusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
+      child: Scaffold(
+        key: scaffoldKey,
         backgroundColor: Colors.white,
-        automaticallyImplyLeading: false,
-        title: Text(
-          'Enter Pin Code Below',
-          style: FlutterFlowTheme.of(context).bodyMedium.override(
-                fontFamily: 'Outfit',
-                color: Color(0xFF101213),
-                fontSize: 14.0,
-                fontWeight: FontWeight.normal,
-              ),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: false,
+          title: Text(
+            'Enter Pin Code Below',
+            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                  fontFamily: 'Outfit',
+                  color: Color(0xFF101213),
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.normal,
+                ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 0.0,
         ),
-        actions: [],
-        centerTitle: true,
-        elevation: 0.0,
-      ),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).requestFocus(_unfocusNode),
-        child: Column(
+        body: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -96,6 +94,7 @@ class _OtpppWidgetState extends State<OtpppWidget> {
                     padding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 32.0, 0.0, 0.0),
                     child: PinCodeTextField(
+                      autoDisposeControllers: false,
                       appContext: context,
                       length: 6,
                       textStyle:
@@ -108,6 +107,8 @@ class _OtpppWidgetState extends State<OtpppWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       enableActiveFill: false,
                       autoFocus: true,
+                      enablePinAutofill: true,
+                      errorTextSpace: 16.0,
                       showCursor: true,
                       cursorColor: Color(0xFF4B39EF),
                       obscureText: false,
@@ -126,7 +127,10 @@ class _OtpppWidgetState extends State<OtpppWidget> {
                         selectedFillColor: Color(0xFF57636C),
                       ),
                       controller: _model.pinCodeController,
-                      onChanged: (_) => {},
+                      onChanged: (_) {},
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: _model.pinCodeControllerValidator
+                          .asValidator(context),
                     ),
                   ),
                 ],
@@ -146,7 +150,7 @@ class _OtpppWidgetState extends State<OtpppWidget> {
                     );
                     return;
                   }
-                  final phoneVerifiedUser = await verifySmsCode(
+                  final phoneVerifiedUser = await authManager.verifySmsCode(
                     context: context,
                     smsCode: smsCodeVal,
                   );
@@ -154,7 +158,7 @@ class _OtpppWidgetState extends State<OtpppWidget> {
                     return;
                   }
 
-                  context.pushNamedAuth('HomePage', mounted);
+                  context.pushNamedAuth('HomePage', context.mounted);
                 },
                 text: 'Confirm & Continue',
                 options: FFButtonOptions(

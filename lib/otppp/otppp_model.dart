@@ -1,4 +1,4 @@
-import '/auth/auth_util.dart';
+import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
@@ -11,8 +11,10 @@ import 'package:provider/provider.dart';
 class OtpppModel extends FlutterFlowModel {
   ///  State fields for stateful widgets in this page.
 
+  final unfocusNode = FocusNode();
   // State field(s) for PinCode widget.
   TextEditingController? pinCodeController;
+  String? Function(BuildContext, String?)? pinCodeControllerValidator;
 
   /// Initialization and disposal methods.
 
@@ -21,9 +23,11 @@ class OtpppModel extends FlutterFlowModel {
   }
 
   void dispose() {
+    unfocusNode.dispose();
     pinCodeController?.dispose();
   }
 
-  /// Additional helper methods are added here.
+  /// Action blocks are added here.
 
+  /// Additional helper methods are added here.
 }
