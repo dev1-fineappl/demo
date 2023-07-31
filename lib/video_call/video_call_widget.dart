@@ -58,7 +58,13 @@ class _VideoCallWidgetState extends State<VideoCallWidget> {
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            children: [],
+            children: [
+              Container(
+                child: Center(
+                  child: Text("jebfiuegfiuqwkn"),
+                ),
+              )
+            ],
           ),
         ),
       ),

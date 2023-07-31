@@ -76,6 +76,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       backgroundColor: FlutterFlowTheme.of(context).secondary,
                     ),
                   );
+                  print('Button pressed by me, you know what, by me');
+                  print(2 + 3);
+                  print("Wanavavananavavananavavaava");
                 },
                 text: 'Button',
                 options: FFButtonOptions(
