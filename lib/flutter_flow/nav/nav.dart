@@ -113,6 +113,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               name: 'otppp',
               path: 'otppp',
               builder: (context, params) => OtpppWidget(),
+            ),
+            FFRoute(
+              name: 'video_call',
+              path: 'videoCall',
+              builder: (context, params) => VideoCallWidget(),
             )
           ].map((r) => r.toRoute(appStateNotifier)).toList(),
         ),
